@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from api.v1.services.user_services import UserService
 
 router = APIRouter(prefix="/users", tags=["users"])
-users_list = [{"id": 1, "name": "Jack Sparrow"}, {"id": 2, "name": "Hector Barbosa"}]
+
 
 user_service = UserService()
 
