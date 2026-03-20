@@ -29,6 +29,6 @@ class UserService:
     def delete_user_by_id(self, user_id: int):
         print(f"Received user id: {user_id}")
         for index in range(len(self.users_list)):
-            if self.users_list[index]["id"] == user_id:
+            if self.users_list[index]["id"]== user_id:
                 self.users_list.pop(index)
                 return {"status": "deletion  success"}
