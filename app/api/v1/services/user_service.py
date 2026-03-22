@@ -14,7 +14,7 @@ class UserService:
         return self.db.query(User).all()
 
     def create_user(self, user_in: UserCreate) -> User:
-        user = User(**user_in.dict())
+        user = User(**user_in.model_dump())
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
@@ -24,7 +24,7 @@ class UserService:
         user = self.get_user(user_id)
         if not user:
             return None
-        for field, value in user_in.dict(exclude_unset=True).items():
+        for field, value in user_in.model_dump(exclude_unset=True).items():
             setattr(user, field, value)
         self.db.commit()
         self.db.refresh(user)

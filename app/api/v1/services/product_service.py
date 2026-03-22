@@ -14,7 +14,7 @@ class ProductService:
         return self.db.query(Product).all()
 
     def create_product(self, product_in: ProductCreate) -> Product:
-        product = Product(**product_in.dict())
+        product = Product(**product_in.model_dump())
         self.db.add(product)
         self.db.commit()
         self.db.refresh(product)
@@ -24,7 +24,7 @@ class ProductService:
         product = self.get_product(product_id)
         if not product:
             return None
-        for field, value in product_in.dict(exclude_unset=True).items():
+        for field, value in product_in.model_dump(exclude_unset=True).items():
             setattr(product, field, value)
         self.db.commit()
         self.db.refresh(product)
