@@ -10,5 +10,5 @@ DATABASE_URL = URL.create(
     password=os.getenv("DB_PASSWORD"),
     host=os.getenv("DB_HOST"),
     port=int(os.getenv("DB_PORT")),
-    database=os.getenv("DB_NAME")
+    database=os.getenv("DB_NAME"),
 )

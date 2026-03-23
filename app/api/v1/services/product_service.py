@@ -20,7 +20,9 @@ class ProductService:
         self.db.refresh(product)
         return product
 
-    def update_product(self, product_id: int, product_in: ProductUpdate) -> Product | None:
+    def update_product(
+        self, product_id: int, product_in: ProductUpdate
+    ) -> Product | None:
         product = self.get_product(product_id)
         if not product:
             return None

@@ -6,15 +6,18 @@ from app.dependencies.db import get_db
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
+
 @router.post("/", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
 def create_order(order_in: OrderCreate, db: Session = Depends(get_db)):
     service = OrderService(db)
     return service.create_order(order_in)
 
+
 @router.get("/", response_model=list[OrderResponse])
 def list_orders(db: Session = Depends(get_db)):
     service = OrderService(db)
     return service.get_all_orders()
+
 
 @router.get("/{order_id}", response_model=OrderResponse)
 def get_order(order_id: int, db: Session = Depends(get_db)):
@@ -24,6 +27,7 @@ def get_order(order_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Order not found")
     return order
 
+
 @router.put("/{order_id}", response_model=OrderResponse)
 def update_order(order_id: int, order_in: OrderUpdate, db: Session = Depends(get_db)):
     service = OrderService(db)
@@ -31,6 +35,7 @@ def update_order(order_id: int, order_in: OrderUpdate, db: Session = Depends(get
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     return order
+
 
 @router.delete("/{order_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_order(order_id: int, db: Session = Depends(get_db)):

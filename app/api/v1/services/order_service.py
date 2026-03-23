@@ -3,6 +3,7 @@ from app.models.order import Order
 from app.models.order_item import OrderItem
 from app.schemas.order import OrderCreate, OrderUpdate
 
+
 class OrderService:
     def __init__(self, db: Session):
         self.db = db
@@ -19,13 +20,12 @@ class OrderService:
         self.db.commit()
         self.db.refresh(order)
 
-        # Add order items
         for item in order_in.items:
             order_item = OrderItem(
                 order_id=order.order_id,
                 product_id=item.product_id,
                 quantity=item.quantity,
-                price_at_purchase=item.price_at_purchase
+                price_at_purchase=item.price_at_purchase,
             )
             self.db.add(order_item)
         self.db.commit()
@@ -40,19 +40,16 @@ class OrderService:
         if order_in.total_paid is not None:
             order.total_paid = order_in.total_paid
 
-        # Optionally update items
         if order_in.items:
-            # Delete existing items
             for item in order.items:
                 self.db.delete(item)
             self.db.commit()
-            # Add new items
             for item in order_in.items:
                 order_item = OrderItem(
                     order_id=order.order_id,
                     product_id=item.product_id,
                     quantity=item.quantity,
-                    price_at_purchase=item.price_at_purchase
+                    price_at_purchase=item.price_at_purchase,
                 )
                 self.db.add(order_item)
 
